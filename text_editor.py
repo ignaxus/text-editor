@@ -7,15 +7,31 @@ Description: A lightweight text editor built with Python and Tkinter
 """
 
 import tkinter as tk
-from tkinter import ttk
-from tkinter import scrolledtext
+import customtkinter as ctk
 from tkinter import messagebox
 from tkinter import filedialog
+import os
+import sys
+
+#code for pyinstaller
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+img_path = resource_path("logo.png")
+
+ctk.set_appearance_mode("Light")
+ctk.set_default_color_theme("blue")
 
 #start building the window
-root=tk.Tk()
+root=ctk.CTk()
 root.title("Text Editor")
 root.geometry("800x600")
+root.wm_iconbitmap(img_path)
 
 #font type and size
 FONTS = ["Arial", "Courier New", "Verdana", "Times New Roman", "Consolas"]
@@ -72,49 +88,49 @@ def change_font(*args):
     font = font_var.get()
     size = size_var.get()
 
-    text_area.config(font=(font, size))
+    text_area.configure(font=(font, int(size)))
 
 #show cut, copy and paste
 def show_context_menu(event):
     context_menu.post(event.x_root, event.y_root)
 
 def do_cut():
-    text_area.event_generate("<<Cut>>")
+    text_area._textbox.event_generate("<<Cut>>")
 
 def do_copy():
-    text_area.event_generate("<<Copy>>")
+    text_area._textbox.event_generate("<<Copy>>")
 
 def do_paste():
-    text_area.event_generate("<<Paste>>")
+    text_area._textbox.event_generate("<<Paste>>")
 
 #interface
 
 #frame for menu
-toolbar = tk.Frame(root, bg="#eeeeee") 
+toolbar = ctk.CTkFrame(root, fg_color="#eeeeee") 
 toolbar.pack(side="top", fill="x")
 
-btn_new = ttk.Button(toolbar, text="New File", width=10, command=new_file)
+btn_new = ctk.CTkButton(toolbar, text="New File", width=100, command=new_file)
 btn_new.pack(side="left", padx=2, pady=5)
 
-btn_open = ttk.Button(toolbar, text="Open File", width=10, command=open_file)
+btn_open = ctk.CTkButton(toolbar, text="Open File", width=100, command=open_file)
 btn_open.pack(side="left", padx=2, pady=5)
 
-btn_save = ttk.Button(toolbar, text="Save", width=10, command=save_file)
+btn_save = ctk.CTkButton(toolbar, text="Save", width=100, command=save_file)
 btn_save.pack(side="left", padx=2, pady=5)
 
 #font type and size settings
-font_var = tk.StringVar(root)
+font_var = ctk.StringVar(root)
 font_var.set("Arial")
-font_dropdown = ttk.OptionMenu(toolbar, font_var, *FONTS, command=change_font)
+font_dropdown = ctk.CTkOptionMenu(toolbar, values=FONTS, command=change_font, variable=font_var)
 font_dropdown.pack(side="left", padx=5)
 
-size_var = tk.StringVar(root)
+size_var = ctk.StringVar(root)
 size_var.set("12")
-size_dropdown = ttk.OptionMenu(toolbar, size_var, *SIZES, command=change_font)
+size_dropdown = ctk.CTkOptionMenu(toolbar, values=SIZES, command=change_font, variable=size_var)
 size_dropdown.pack(side="left", padx=5)
 
 #text area
-text_area = scrolledtext.ScrolledText(root, font=("Arial", 12))
+text_area = ctk.CTkTextbox(root, font=("Arial", 12))
 text_area.pack(fill='both', expand=True)
 
 #menu for right click
