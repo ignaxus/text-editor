@@ -11,7 +11,6 @@ A simple text editor on Windows built with **Python** and the **Tkinter** librar
   - Change font families (e.g., Arial, Consolas, Courier New) on the fly.
   - Adjust font sizes to suit your preference.
 - **User Experience**:
-  - `Undo/Redo`: Full support for `Ctrl+Z` and `Ctrl+Y` to manage edit history.
   - `Context Menu`: Right-click functionality for quick access to:
     - **Cut / Copy / Paste**: Standard clipboard operations.
     - **Select All**: Quickly highlight all text.
@@ -25,9 +24,8 @@ A simple text editor on Windows built with **Python** and the **Tkinter** librar
 
 ### Installation
 1. Clone this repository:
-   ```bash
+```bash
    git clone [https://github.com/ignaxus/text-editor.git](https://github.com/ignaxus/text-editor.git)
-
 ```
 
 2. Navigate to the project folder:
